@@ -1,0 +1,17 @@
+FROM node:14.16.1
+# Install packages
+WORKDIR /webdriverioProject
+COPY package*.json ./
+COPY . .
+EXPOSE 8080
+RUN npm install -g npm@7.12.0
+RUN npm --version
+RUN npm install webdriverio --save-dev
+RUN npm install @wdio/cli
+
+# Install Chrome
+COPY ChromeStandaloneSetup64.exe ./
+RUN [".\\ChromeStandaloneSetup64.exe", "/silent", "/install"]
+
+# Run tests
+CMD npx wdio
